@@ -10,6 +10,8 @@ packages = [{include = "projeto_elemaq2"}]
 python = "^3.9"
 black = "^22.10.0"
 isort = "^5.10.1"
+numpy = "^1.23.5"
+matplotlib = "^3.6.2"
 
 
 [build-system]
