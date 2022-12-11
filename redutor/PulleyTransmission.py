@@ -4,10 +4,13 @@ from redutor import Pulley
 
 
 class PulleyTransmission:
-    def __init__(self, polia1: Pulley, polia2: Pulley, power: float) -> None:
+    def __init__(
+        self, polia1: Pulley, polia2: Pulley, power: float, position: float
+    ) -> None:
         self.P1 = polia1
         self.P2 = polia2
         self.power = power
+        self.position = position
 
     def _calculate_geometry(self):
         # Dimensionamento da transmissao pela correia
@@ -31,7 +34,7 @@ class PulleyTransmission:
 
     def _calculate_forces(self):
         V = self.P1.angular_velocity * self.P1.primitive_diameter / 2
-        self.Fc = self.Kc * (V / 1) ** 2
+        self.Fc = self.Kc * (V / 1000) ** 2
         e = math.exp(self.mi * self.theta / math.sin(self.phi / 2))
         T = self.power / self.P1.angular_velocity
         self.F2 = (self.Fc - 2 * T / self.P1.primitive_diameter - self.Fc * e) / (1 - e)

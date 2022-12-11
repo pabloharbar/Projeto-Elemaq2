@@ -4,23 +4,27 @@ from redutor import Gear
 
 
 class GearTransmission:
-    def __init__(self, gear1: Gear, gear2: Gear, seconds_of_use: float) -> None:
+    def __init__(
+        self, gear1: Gear, gear2: Gear, seconds_of_use: float, position: float
+    ) -> None:
         self.gear1 = gear1
         self.gear2 = gear2
         self.seconds_of_use = seconds_of_use
+        self.position = position
 
     def calculate_forces(
         self, input_power: float, input_velocity: float, roller_efficiency: float
     ):
-        self.w1 = input_velocity
+        self.w1 = input_velocity * math.pi / 30
         self.p1 = input_power
-        self.T1 = input_power / input_velocity
+        self.T1 = input_power / self.w1
 
         Z1 = self.gear1.number_of_teeths
         Z2 = self.gear2.number_of_teeths
-        self.gearing_efficiency = 1 - 0.5 * (Z1 - Z2) / (Z1 * Z2)
+        self.gearing_efficiency = 1 - 0.5 * (Z2 - Z1) / (Z1 * Z2)
 
-        self.w2 = input_velocity * self.gear1.primitive_diam / self.gear2.primitive_diam
+        self.w2 = self.w1 * self.gear1.primitive_diam / self.gear2.primitive_diam
+        print(self.gear1.primitive_diam, self.gear2.primitive_diam)
         self.p2 = input_power * roller_efficiency * self.gearing_efficiency
         self.T2 = self.p2 / self.w2
 
